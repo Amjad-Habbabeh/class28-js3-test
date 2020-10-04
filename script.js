@@ -4,20 +4,26 @@
     Put your JavaScript here
 */
 
-const body = document.querySelector('body');
-const selector = document.createElement('select');
-body.append(selector);
-const div = document.createElement('div');
-
+function creatHtml() {
+  const body = document.querySelector('body');
+  const selector = document.createElement('select');
+  body.append(selector);
+  const div = document.createElement('div');
+  body.append(div);
+}
+creatHtml();
 const arrayOfDAta = [];
 
 async function fetchApi(url) {
   try {
+    const selector = document.querySelector('select');
+
     const res = await fetch(url);
     const data = await res.json();
 
     const option = document.createElement('option');
     option.innerText = data.Title;
+
     selector.append(option);
     await arrayOfDAta.push({
       title: data.Title,
@@ -45,24 +51,27 @@ async function callOptions() {
 }
 callOptions();
 
+const selector = document.querySelector('select');
+
 selector.addEventListener('change', showDeatils);
 
 async function showDeatils() {
-  if (div.innerHTML != '') {
-    console.log('div.innerHTML');
-  }
   try {
+    const div = document.querySelector('div');
+
+    div.innerHTML = '';
     for (let el of arrayOfDAta) {
       if (selector.value == el.title) {
-        const div = document.createElement('div');
+        const div2 = document.createElement('div');
         const img = document.createElement('img');
         img.src = el.Poster;
-        div.append(img);
-        img.style.maxWidth = '50%';
+        div2.append(img);
+        div2.style.maxWidth = '100%';
+        img.style.maxWidth = '100%';
         const p = document.createElement('p');
         p.innerText = el.Plot;
         div.append(p);
-        body.append(div);
+        div.append(div2);
       }
     }
   } catch (err) {
